@@ -1,25 +1,13 @@
 pipeline {
     agent any
 
-    environment {
-        PYENV_ROOT = "$HOME/.pyenv"
-    }
-
     stages {
-        stage('Set Up Python and Venv') {
+        stage('Create Virtual Environment') {
             steps {
                 sh '''
-                    # Set up pyenv and activate virtualenv inside the Jenkins workspace
-                    export PYENV_ROOT="$HOME/.pyenv"
-                    export PATH="$PYENV_ROOT/bin:$PATH"
-                    eval "$(pyenv init --path)"
-                    eval "$(pyenv init -)"
-                    eval "$(pyenv virtualenv-init -)"
-
-                    pyenv shell 3.10.13
-                    pyenv virtualenv 3.10.13 cicdvenv || true
-                    pyenv activate cicdvenv
-
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install --upgrade pip
                     pip install -r requirements.txt
                 '''
             }
@@ -28,13 +16,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh '''
-                    export PYENV_ROOT="$HOME/.pyenv"
-                    export PATH="$PYENV_ROOT/bin:$PATH"
-                    eval "$(pyenv init --path)"
-                    eval "$(pyenv init -)"
-                    eval "$(pyenv virtualenv-init -)"
-                    pyenv activate cicdvenv
-
+                    . venv/bin/activate
                     pytest
                 '''
             }
@@ -43,7 +25,7 @@ pipeline {
         stage('Deploy (Simulated)') {
             steps {
                 sh '''
-                    echo "Simulating deployment..."
+                    echo "Deployment step (simulated)"
                 '''
             }
         }
