@@ -1,53 +1,34 @@
-<div align="center"><img src="https://raw.githubusercontent.com/pallets/flask/refs/heads/stable/docs/_static/flask-name.svg" alt="" height="150"></div>
+# Flask CI/CD Pipeline with Jenkins
 
-# Flask
+This project sets up a Jenkins pipeline to build, test, and deploy a Flask web application.
 
-Flask is a lightweight [WSGI] web application framework. It is designed
-to make getting started quick and easy, with the ability to scale up to
-complex applications. It began as a simple wrapper around [Werkzeug]
-and [Jinja], and has become one of the most popular Python web
-application frameworks.
+## Prerequisites
 
-Flask offers suggestions, but doesn't enforce any dependencies or
-project layout. It is up to the developer to choose the tools and
-libraries they want to use. There are many extensions provided by the
-community that make adding new functionality easy.
+- AWS EC2 instance with Jenkins installed
+- Python 3 and pip
+- Jenkins plugins: Git, Pipeline, Email Extension
 
-[WSGI]: https://wsgi.readthedocs.io/
-[Werkzeug]: https://werkzeug.palletsprojects.com/
-[Jinja]: https://jinja.palletsprojects.com/
+## Pipeline Stages
 
-## A Simple Example
+1. **Build**: Installs dependencies using `pip install -r requirements.txt`
+2. **Test**: Runs `pytest`
+3. **Deploy**: Deploys the app to a staging server (simulated)
+4. **Notifications**: Sends email on build success/failure
 
-```python
-# save this as app.py
-from flask import Flask
+## Jenkins Setup
 
-app = Flask(__name__)
+- Configured on Ubuntu EC2
+- Jenkins runs on port 8080
+- GitHub webhook triggers pipeline on push
 
-@app.route("/")
-def hello():
-    return "Hello, World!"
-```
+## Repository
 
-```
-$ flask run
-  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
-```
+Forked from: [Sample Flask App](https://github.com/heroku/python-getting-started)
 
-## Donate
+## Screenshots
 
-The Pallets organization develops and supports Flask and the libraries
-it uses. In order to grow the community of contributors and users, and
-allow the maintainers to devote more time to the projects, [please
-donate today].
-
-[please donate today]: https://palletsprojects.com/donate
-
-## Contributing
-
-See our [detailed contributing documentation][contrib] for many ways to
-contribute, including reporting issues, requesting features, asking or answering
-questions, and making PRs.
-
-[contrib]: https://palletsprojects.com/contributing/
+> Include screenshots of:
+> - Jenkins Dashboard
+> - Pipeline configuration
+> - Pipeline execution (build → test → deploy)
+> - Email Notification
